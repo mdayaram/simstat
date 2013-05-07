@@ -12,6 +12,7 @@ type DataSet struct {
 	count  int
 	max    int
 	min    int
+	minned bool
 	mode   int
 	modeCt int
 }
@@ -30,8 +31,9 @@ func (d *DataSet) Add(i int) {
 	if d.max < i {
 		d.max = i
 	}
-	if d.min > i {
+	if !d.minned || d.min > i {
 		d.min = i
+		d.minned = true
 	}
 	if d.modeCt < d.data[i] {
 		d.modeCt = d.data[i]
