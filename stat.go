@@ -11,6 +11,7 @@ type DataSet struct {
 	data   map[int]int
 	count  int
 	max    int
+	maxed  bool
 	min    int
 	minned bool
 	mode   int
@@ -28,8 +29,9 @@ func (d *DataSet) Add(i int) {
 	defer d.door.Unlock()
 	d.data[i] += 1
 	d.count += 1
-	if d.max < i {
+	if !d.maxed || d.max < i {
 		d.max = i
+		d.maxed = true
 	}
 	if !d.minned || d.min > i {
 		d.min = i
