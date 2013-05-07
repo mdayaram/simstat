@@ -117,10 +117,10 @@ func (d *DataSet) StdDev() float64 {
 func (d *DataSet) String() string {
 	d.door.Lock()
 	defer d.door.Unlock()
-	s := fmt.Sprintf("Total:\t%d\n", d.count)
-	s += fmt.Sprintf("Min:\t%d\n", d.min)
-	s += fmt.Sprintf("Mean:\t%f\n", d.avg())
-	s += fmt.Sprintf("Max:\t%d\n", d.max)
+	s := fmt.Sprintf("Total-Records:\t%d\n", d.count)
+	s += fmt.Sprintf("Minimum:\t%d\n", d.min)
+	s += fmt.Sprintf("Average:\t%f\n", d.avg())
+	s += fmt.Sprintf("Maximum:\t%d\n", d.max)
 	s += fmt.Sprintf("Std-Dev:\t%f\n", d.stdDev())
 	return s
 }
