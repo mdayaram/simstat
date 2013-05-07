@@ -8,23 +8,23 @@ import (
 
 type DataSet struct {
 	door   sync.Mutex
-	data   map[int]int
-	count  int
-	max    int
+	data   map[int64]int64
+	count  int64
+	max    int64
 	maxed  bool
-	min    int
+	min    int64
 	minned bool
-	mode   int
-	modeCt int
+	mode   int64
+	modeCt int64
 }
 
 func NewDataSet() *DataSet {
 	return &DataSet{
-		data: make(map[int]int),
+		data: make(map[int64]int64),
 	}
 }
 
-func (d *DataSet) Add(i int) {
+func (d *DataSet) Add(i int64) {
 	d.door.Lock()
 	defer d.door.Unlock()
 	d.data[i] += 1
@@ -43,48 +43,44 @@ func (d *DataSet) Add(i int) {
 	}
 }
 
-func (d *DataSet) Min() int {
+func (d *DataSet) Min() int64 {
 	d.door.Lock()
 	defer d.door.Unlock()
 	return d.min
 }
 
-func (d *DataSet) Max() int {
+func (d *DataSet) Max() int64 {
 	d.door.Lock()
 	defer d.door.Unlock()
 	return d.max
 }
 
-func (d *DataSet) Mode() (mode int, appearances int) {
+func (d *DataSet) Mode() (mode int64, appearances int64) {
 	d.door.Lock()
 	defer d.door.Unlock()
 	return d.mode, d.modeCt
 }
 
-func (d *DataSet) Count() int {
+func (d *DataSet) Count() int64 {
 	d.door.Lock()
 	defer d.door.Unlock()
 	return d.count
 }
 
-func (d *DataSet) sum() int {
-	sum := 0
+func (d *DataSet) sum() int64 {
+	var sum int64 = 0
 	for num, ct := range d.data {
 		sum += num * ct
 	}
 	return sum
 }
-func (d *DataSet) Sum() int {
+func (d *DataSet) Sum() int64 {
 	d.door.Lock()
 	defer d.door.Unlock()
 	return d.sum()
 }
 
 func (d *DataSet) avg() float64 {
-	sum := 0
-	for num, ct := range d.data {
-		sum += num * ct
-	}
 	return float64(d.sum()) / float64(d.count)
 }
 func (d *DataSet) Avg() float64 {
@@ -97,7 +93,7 @@ func (d *DataSet) variance() float64 {
 	avg := d.avg()
 	var sumf float64 = 0
 	for num, ct := range d.data {
-		for i := 0; i < ct; i++ {
+		for i := int64(0); i < ct; i++ {
 			sumf += (float64(num) - avg) * (float64(num) - avg)
 		}
 	}
